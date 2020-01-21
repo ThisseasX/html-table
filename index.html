@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Awesome Table</title>
+  </head>
+  <body>
+    <table>
+      <thead>
+        <tr>
+          <th>name</th>
+          <th>surname</th>
+          <th>age</th>
+        </tr>
+      </thead>
+      <tbody id="tbody-root"></tbody>
+    </table>
+
+    <script>
+      const dataset = [
+        {
+          name: 'Spongebob',
+          surname: 'Squarepants',
+          age: 20,
+        },
+        {
+          name: 'Patrick',
+          surname: 'Star',
+          age: 21,
+        },
+        {
+          name: 'Eugene',
+          surname: 'Krabs',
+          age: 30,
+        },
+      ];
+
+      const generateTableBody = data => {
+        const columns = Object.keys(data[0]);
+
+        const fragment = document.createDocumentFragment();
+
+        data.forEach(row => {
+          const tr = document.createElement('tr');
+
+          const values = Object.values(row);
+
+          values.forEach(value => {
+            const td = document.createElement('td');
+            const text = document.createTextNode(value);
+
+            td.appendChild(text);
+            tr.appendChild(td);
+          });
+
+          fragment.appendChild(tr);
+        });
+
+        return fragment;
+      };
+
+      const generateTableBodyWithLiteral = data => {
+        const fragment = document.createDocumentFragment();
+
+        data.forEach(row => {
+          const tr = document.createElement('tr');
+
+          const template = `
+            <td>${row.name}</td>
+            <td>${row.surname}</td>
+            <td>${row.age}</td>
+          `;
+
+          tr.innerHTML = template;
+
+          fragment.appendChild(tr);
+        });
+
+        return fragment;
+      };
+
+      const renderTableBody = () => {
+        const root = document.getElementById('tbody-root');
+        const table = generateTableBodyWithLiteral(dataset);
+        // const table = generateTableBody(dataset); // alternative version
+
+        root.innerHTML = '';
+        root.appendChild(table);
+      };
+
+      renderTableBody();
+    </script>
+  </body>
+</html>
